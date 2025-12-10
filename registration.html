@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+  <header class="bg-white/70 backdrop-blur sticky top-0 z-20 shadow-sm">
+    <nav class="max-w-4xl mx-auto flex items-center justify-between p-4">
+      <ul class="flex gap-4">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="calculator.html" class="nav-link">Calculator</a></li>
+        <li><a href="registration.html" class="nav-link active">Registration</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="max-w-2xl mx-auto p-6">
+
+    <h1 class="text-2xl font-bold mb-4 text-slate-700">Registration</h1>
+
+    <form id="regForm" class="bg-white rounded-xl shadow-md p-6 space-y-4">
+
+      <div>
+        <label class="block text-sm font-medium">First Name</label>
+        <input id="firstName" maxlength="40" class="input-field" placeholder="First name">
+        <p id="fnErr" class="error-msg hidden"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Last Name</label>
+        <input id="lastName" maxlength="40" class="input-field" placeholder="Last name">
+        <p id="lnErr" class="error-msg hidden"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">NIM</label>
+        <input id="nim" inputmode="numeric" class="input-field" placeholder="max 7 digits">
+        <p id="nimErr" class="error-msg hidden"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Phone Number</label>
+        <input id="phone" inputmode="numeric" class="input-field" placeholder="max 15 digits">
+        <p id="phoneErr" class="error-msg hidden"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Email (@unai.edu)</label>
+        <input id="email" type="email" class="input-field" placeholder="example@unai.edu">
+        <p id="emailErr" class="error-msg hidden"></p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Password</label>
+        <input id="password" type="password" class="input-field"
+               placeholder="8–16 chars, upper/lowercase, numbers, no symbols">
+        <p id="pwErr" class="error-msg hidden"></p>
+      </div>
+
+      <div class="flex gap-4">
+        <button id="submitBtn"
+                class="px-4 py-2 rounded bg-sky-600 text-white hover:bg-sky-700">
+          Submit
+        </button>
+
+        <button type="reset"
+                class="px-4 py-2 rounded bg-gray-100 hover:bg-gray-200">
+          Reset
+        </button>
+      </div>
+
+    </form>
+
+  </main>
+
+  <footer class="mt-12 pb-8 text-center text-sm text-slate-600">
+    © Karistin Simbolon.
+  </footer>
+
+  <script>
+    document.getElementById("regForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let valid = true;
+
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const nim = document.getElementById("nim").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const showError = (id, msg) => {
+        const el = document.getElementById(id);
+        el.textContent = msg;
+        el.classList.remove("hidden");
+      };
+
+      const hideError = (id) => {
+        document.getElementById(id).classList.add("hidden");
+      };
+
+      if (firstName === "") { valid = false; showError("fnErr", "First name is required!"); }
+      else hideError("fnErr");
+
+      if (lastName === "") { valid = false; showError("lnErr", "Last name is required!"); }
+      else hideError("lnErr");
+
+      if (!/^\d{1,7}$/.test(nim)) {
+        valid = false;
+        showError("nimErr", "Student ID must be numeric with max 7 digits!");
+      } else hideError("nimErr");
+
+      if (!/^\d{1,15}$/.test(phone)) {
+        valid = false;
+        showError("phoneErr", "Phone number must be numeric with max 15 digits!");
+      } else hideError("phoneErr");
+
+      if (!/^[A-Za-z0-9._%+-]+@unai\.edu$/.test(email)) {
+        valid = false;
+        showError("emailErr", "Email must use @unai.edu domain!");
+      } else hideError("emailErr");
+
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,16}$/.test(password)) {
+        valid = false;
+        showError("pwErr", "Password must be 8–16 chars, contain upper/lowercase letters and numbers, no symbols.");
+      } else hideError("pwErr");
+
+      if (valid) {
+        alert("Registration Successful");
+        document.getElementById("regForm").reset();
+      }
+    });
+  </script>
+</body>
+</html>
